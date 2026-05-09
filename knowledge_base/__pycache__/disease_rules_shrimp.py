@@ -20,7 +20,7 @@
 #    5 = low / single indicator
 #    1 = catch-all
 
-from experta import KnowledgeEngine, Rule, MATCH, OR, NOT
+from experta import KnowledgeEngine, Rule, MATCH, OR, NOT, salience
 from knowledge_base.facts import (
     FarmContext, BehaviorSymptom, PhysicalSymptom,
     WaterAlert, DiseaseDiagnosis
@@ -42,7 +42,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="shell_white_spots"),
         BehaviorSymptom(symptom="mass_mortality"),
-        salience=30
+        salience(30)
     )
     def shrimp_wssv_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -79,7 +79,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="shell_white_spots"),
         NOT(BehaviorSymptom(symptom="mass_mortality")),
-        salience=20
+        salience(20)
     )
     def shrimp_wssv_medium_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -115,7 +115,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         PhysicalSymptom(symptom="empty_stomach"),
         PhysicalSymptom(symptom="white_hepatopancreas"),
         BehaviorSymptom(symptom="mass_mortality"),
-        salience=30
+        salience(30)
     )
     def shrimp_ems_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -149,7 +149,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         PhysicalSymptom(symptom="empty_stomach"),
         PhysicalSymptom(symptom="white_hepatopancreas"),
         NOT(BehaviorSymptom(symptom="mass_mortality")),
-        salience=20
+        salience(20)
     )
     def shrimp_ems_medium_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -182,7 +182,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="red_discoloration"),
         BehaviorSymptom(symptom="lethargy"),
-        salience=20
+        salience(20)
     )
     def shrimp_vibriosis_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -215,7 +215,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="red_discoloration"),
         WaterAlert(parameter="temperature", level="critical"),
-        salience=20
+        salience(20)
     )
     def shrimp_vibriosis_heat_linked(self):
         self.declare(DiseaseDiagnosis(
@@ -247,7 +247,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="black_gills", location="gill"),
         BehaviorSymptom(symptom="reduced_feeding"),
-        salience=20
+        salience(20)
     )
     def shrimp_black_gill_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -277,7 +277,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="black_gills", location="gill"),
         WaterAlert(parameter="ammonia", level="critical"),
-        salience=20
+        salience(20)
     )
     def shrimp_black_gill_ammonia_linked(self):
         self.declare(DiseaseDiagnosis(
@@ -310,7 +310,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         PhysicalSymptom(symptom="soft_shell"),
         BehaviorSymptom(symptom="reduced_feeding"),
-        salience=20
+        salience(20)
     )
     def shrimp_lss_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -347,7 +347,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         BehaviorSymptom(symptom="whirling"),
         PhysicalSymptom(symptom="white_muscle"),
-        salience=20
+        salience(20)
     )
     def shrimp_ehp_high_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -377,7 +377,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         BehaviorSymptom(symptom="whirling"),
         NOT(PhysicalSymptom(symptom="white_muscle")),
-        salience=10
+        salience(10)
     )
     def shrimp_ehp_medium_confidence(self):
         self.declare(DiseaseDiagnosis(
@@ -407,7 +407,7 @@ class ShrimpDiseaseEngine(KnowledgeEngine):
         FarmContext(species="shrimp"),
         OR(BehaviorSymptom(), PhysicalSymptom()),
         NOT(DiseaseDiagnosis()),
-        salience=1
+        salience(1)
     )
     def shrimp_unknown(self):
         self.declare(DiseaseDiagnosis(
