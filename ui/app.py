@@ -22,7 +22,7 @@ COLORS = {
     "subtext"     : "#546e7a",
     "border"      : "#cfd8dc",
     "button"      : "#1a6b3c",
-    "button_text" : "#ffffff",
+    "button_text" : "#111111",
     "tab_active"  : "#1a6b3c",
 }
 

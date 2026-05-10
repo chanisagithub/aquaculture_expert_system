@@ -1,4 +1,3 @@
-# knowledge_base/disease_rules_shrimp.py
 # Disease Diagnosis Rules — Whiteleg Shrimp (Litopenaeus vannamei)
 #
 # Diseases covered:
