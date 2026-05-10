@@ -8,24 +8,37 @@
 </head>
 <body>
     <header class="app-header">
-        <div>
-            <h1>Aquaculture Expert System</h1>
-            <p>Fish disease diagnosis and water quality analysis</p>
+        <div class="header-inner">
+            <div>
+                <p class="eyebrow">Decision Support</p>
+                <h1>Aquaculture Expert System</h1>
+                <p>Fish disease diagnosis and water quality analysis</p>
+            </div>
+            <div class="header-meta">
+                <span>Rule-based inference</span>
+                <span>Water + symptom analysis</span>
+            </div>
         </div>
     </header>
 
     <main class="layout">
         <form class="panel form-panel" method="post" action="#results">
-            <section>
-                <h2>Farm Setup</h2>
-                <div class="inline-options">
-                    <label>
+            <section class="input-section">
+                <div class="section-heading">
+                    <span class="step">1</span>
+                    <div>
+                        <h2>Farm Setup</h2>
+                        <p>Set the species and pond context used by the rules engine.</p>
+                    </div>
+                </div>
+                <div class="choice-grid">
+                    <label class="choice-card">
                         <input type="radio" name="species" value="tilapia" {% if form.species == "tilapia" %}checked{% endif %}>
-                        Tilapia
+                        <span>Tilapia</span>
                     </label>
-                    <label>
+                    <label class="choice-card">
                         <input type="radio" name="species" value="shrimp" {% if form.species == "shrimp" %}checked{% endif %}>
-                        Whiteleg shrimp
+                        <span>Whiteleg shrimp</span>
                     </label>
                 </div>
 
@@ -45,8 +58,14 @@
                 </div>
             </section>
 
-            <section>
-                <h2>Water Quality</h2>
+            <section class="input-section">
+                <div class="section-heading">
+                    <span class="step">2</span>
+                    <div>
+                        <h2>Water Quality</h2>
+                        <p>Leave unknown readings blank.</p>
+                    </div>
+                </div>
                 <div class="water-grid">
                     {% for key, label, safe_range in water_fields %}
                         <label>
@@ -58,25 +77,37 @@
                 </div>
             </section>
 
-            <section>
-                <h2>Behavioral Symptoms</h2>
+            <section class="input-section">
+                <div class="section-heading">
+                    <span class="step">3</span>
+                    <div>
+                        <h2>Behavioral Symptoms</h2>
+                        <p>Select observed activity changes.</p>
+                    </div>
+                </div>
                 <div class="checkbox-grid">
                     {% for key, label in behavior_symptoms %}
-                        <label>
+                        <label class="check-card">
                             <input type="checkbox" name="behavior_symptoms" value="{{ key }}" {% if key in form.behavior_symptoms %}checked{% endif %}>
-                            {{ label }}
+                            <span>{{ label }}</span>
                         </label>
                     {% endfor %}
                 </div>
             </section>
 
-            <section>
-                <h2>Physical Symptoms</h2>
+            <section class="input-section">
+                <div class="section-heading">
+                    <span class="step">4</span>
+                    <div>
+                        <h2>Physical Symptoms</h2>
+                        <p>Select visible signs on fish or shrimp.</p>
+                    </div>
+                </div>
                 <div class="checkbox-grid">
                     {% for key, location, label in physical_symptoms %}
-                        <label>
+                        <label class="check-card">
                             <input type="checkbox" name="physical_symptoms" value="{{ key }}" {% if key in form.physical_symptoms %}checked{% endif %}>
-                            {{ label }}
+                            <span>{{ label }}</span>
                         </label>
                     {% endfor %}
                 </div>
@@ -89,14 +120,19 @@
         </form>
 
         <aside class="panel results-panel" id="results">
-            <h2>Results</h2>
+            <div class="results-header">
+                <div>
+                    <p class="eyebrow">Inference Output</p>
+                    <h2>Diagnostic Results</h2>
+                </div>
+            </div>
             {% if error %}
                 <div class="notice error">{{ error }}</div>
             {% endif %}
 
             {% if result %}
                 <div class="status status-{{ result.overall_status|lower }}">
-                    <strong>{{ result.overall_status }}</strong>
+                    <strong>{{ result.overall_status }} Status</strong>
                     <span>{{ result.summary }}</span>
                 </div>
 
