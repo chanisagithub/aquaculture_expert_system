@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aquaculture Expert System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="app-header">
+        <div>
+            <h1>Aquaculture Expert System</h1>
+            <p>Fish disease diagnosis and water quality analysis</p>
+        </div>
+    </header>
+
+    <main class="layout">
+        <form class="panel form-panel" method="post" action="#results">
+            <section>
+                <h2>Farm Setup</h2>
+                <div class="inline-options">
+                    <label>
+                        <input type="radio" name="species" value="tilapia" {% if form.species == "tilapia" %}checked{% endif %}>
+                        Tilapia
+                    </label>
+                    <label>
+                        <input type="radio" name="species" value="shrimp" {% if form.species == "shrimp" %}checked{% endif %}>
+                        Whiteleg shrimp
+                    </label>
+                </div>
+
+                <div class="field-grid compact">
+                    <label>
+                        <span>Days since stocking</span>
+                        <input type="number" name="pond_age_days" min="0" value="{{ form.pond_age_days }}">
+                    </label>
+                    <label>
+                        <span>Stocking density</span>
+                        <select name="stocking_density">
+                            {% for density in ["low", "medium", "high"] %}
+                                <option value="{{ density }}" {% if form.stocking_density == density %}selected{% endif %}>{{ density|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            </section>
+
+            <section>
+                <h2>Water Quality</h2>
+                <div class="water-grid">
+                    {% for key, label, safe_range in water_fields %}
+                        <label>
+                            <span>{{ label }}</span>
+                            <input type="text" name="{{ key }}" value="{{ form.water_params[key] }}" inputmode="decimal">
+                            <small>{{ safe_range }}</small>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section>
+                <h2>Behavioral Symptoms</h2>
+                <div class="checkbox-grid">
+                    {% for key, label in behavior_symptoms %}
+                        <label>
+                            <input type="checkbox" name="behavior_symptoms" value="{{ key }}" {% if key in form.behavior_symptoms %}checked{% endif %}>
+                            {{ label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section>
+                <h2>Physical Symptoms</h2>
+                <div class="checkbox-grid">
+                    {% for key, location, label in physical_symptoms %}
+                        <label>
+                            <input type="checkbox" name="physical_symptoms" value="{{ key }}" {% if key in form.physical_symptoms %}checked{% endif %}>
+                            {{ label }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <div class="actions">
+                <button type="submit">Run Diagnosis</button>
+                <a href="{{ url_for('index') }}">Clear</a>
+            </div>
+        </form>
+
+        <aside class="panel results-panel" id="results">
+            <h2>Results</h2>
+            {% if error %}
+                <div class="notice error">{{ error }}</div>
+            {% endif %}
+
+            {% if result %}
+                <div class="status status-{{ result.overall_status|lower }}">
+                    <strong>{{ result.overall_status }}</strong>
+                    <span>{{ result.summary }}</span>
+                </div>
+
+                <section>
+                    <h3>Water Quality Alerts</h3>
+                    {% if result.water_alerts %}
+                        {% for alert in result.water_alerts %}
+                            <article class="result-card {{ alert.level }}">
+                                <h4>{{ alert.level|upper }}: {{ alert.parameter|upper }}</h4>
+                                <p>Measured: {{ alert.actual }} | Safe range: {{ alert.safe_range }}</p>
+                                <p>{{ alert.correction }}</p>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="empty-state">All water parameters are within safe range.</p>
+                    {% endif %}
+                </section>
+
+                <section>
+                    <h3>Disease Diagnoses</h3>
+                    {% if result.diagnoses %}
+                        {% for diagnosis in result.diagnoses %}
+                            <article class="result-card">
+                                <h4>{{ diagnosis.disease }}</h4>
+                                <dl>
+                                    <dt>Cause</dt>
+                                    <dd>{{ diagnosis.cause }}</dd>
+                                    <dt>Confidence</dt>
+                                    <dd>{{ diagnosis.confidence }}</dd>
+                                    <dt>Urgency</dt>
+                                    <dd>{{ diagnosis.urgency }}</dd>
+                                    <dt>Treatment</dt>
+                                    <dd>{{ diagnosis.treatment|replace('\n', '<br>')|safe }}</dd>
+                                    <dt>Prevention</dt>
+                                    <dd>{{ diagnosis.prevention }}</dd>
+                                </dl>
+                            </article>
+                        {% endfor %}
+                    {% else %}
+                        <p class="empty-state">No disease patterns matched. Monitor pond closely.</p>
+                    {% endif %}
+                </section>
+            {% else %}
+                <p class="empty-state">Run a diagnosis to see water quality alerts and disease matches.</p>
+            {% endif %}
+        </aside>
+    </main>
+</body>
+</html>

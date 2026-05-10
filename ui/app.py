@@ -5,6 +5,7 @@
 import tkinter as tk
 from tkinter import ttk, scrolledtext, font
 from engine.master_engine import run_full_diagnosis
+from ui.options import BEHAVIOR_SYMPTOMS, PHYSICAL_SYMPTOMS
 
 # ── Color palette ─────────────────────────────────────────────────────────────
 COLORS = {
@@ -25,36 +26,6 @@ COLORS = {
     "button_text" : "#111111",
     "tab_active"  : "#1a6b3c",
 }
-
-# ── Symptom definitions ───────────────────────────────────────────────────────
-BEHAVIOR_SYMPTOMS = [
-    ("surface_gasping",    "Surface gasping / gulping air"),
-    ("erratic_swimming",   "Erratic / spiral swimming"),
-    ("lethargy",           "Lethargy / sitting at bottom"),
-    ("flashing",           "Flashing / rubbing on surfaces"),
-    ("reduced_feeding",    "Reduced or stopped feeding"),
-    ("mass_mortality",     "Mass mortality (sudden deaths)"),
-    ("whirling",           "Whirling / spinning (shrimp)"),
-    ("near_inlet_crowding","Crowding near water inlet"),
-]
-
-PHYSICAL_SYMPTOMS = [
-    ("hemorrhagic_ulcer",    "body",  "Hemorrhagic ulcers / bloody sores"),
-    ("white_spots",          "body",  "White spots (salt-grain size) on body"),
-    ("shell_white_spots",    "shell", "White spots visible under shell (shrimp)"),
-    ("white_patches",        "body",  "White / grey patches on body"),
-    ("cotton_growth",        "body",  "Cotton-wool / fluffy growth"),
-    ("fin_erosion",          "fin",   "Fin erosion / fraying"),
-    ("pop_eye",              "eye",   "Pop-eye / bulging eye"),
-    ("body_darkening",       "body",  "Body darkening / discoloration"),
-    ("red_discoloration",    "body",  "Red discoloration on body or legs"),
-    ("black_gills",          "gill",  "Black / dark gills"),
-    ("white_muscle",         "body",  "White muscle (shrimp)"),
-    ("soft_shell",           "shell", "Soft shell / not hardening (shrimp)"),
-    ("white_hepatopancreas", "body",  "White/pale digestive gland (shrimp)"),
-    ("empty_stomach",        "body",  "Empty / transparent stomach (shrimp)"),
-]
-
 
 class AquaExpertApp:
 
